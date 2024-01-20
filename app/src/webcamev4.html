@@ -64,17 +64,60 @@
             }
         }
 
-        toggleFlashingBorder();
+        function togglePoliceLights() {
+            var policeLights = document.getElementById('police-lights');
+            if (policeLights.style.display === 'none' || policeLights.style.display === '') {
+                policeLights.style.display = 'block';
+            } else {
+                policeLights.style.display = 'none';
+            }
+        }   
+
+        window.onload = function() {
+            startWebcam();
+            togglePoliceLights(); // Optionally toggle off the lights on load
+        };
+
+        
+
+        if (true) {
+            toggleFlashingBorder();
+            togglePoliceLights9();
+        }
 
         window.onload = startWebcam;
+
+    function toggleFreezeFrame() {
+        let video = document.getElementById('webcam');
+        if (!video.paused) {
+            video.pause();
+        } else {
+            video.play();
+        }
+    }
+
+
+</script>
 
 
     </script>
     
 </head>
 <body>
-    <h1>Webcam Stream</h1>
+
+    <h1>DangerDet</h1>
+    <button onclick="togglePoliceLights()">Toggle Police Lights</button>
+    <div id="police-lights">
+        <div class="light red-light"></div>
+        <div class="light blue-light"></div>
+    </div>
+    
     <video id="webcam" autoplay playsinline></video>
-    <button onclick="captureFrame()">Capture Frame</button>
+    <div class="button-container">
+        <button class="screenshot_button" onclick="captureFrame()">Capture Frame</button>
+        <button class="freeze_button" onclick="toggleFreezeFrame()">Freeze Frame</button>
+    </div>
+    
+
 </body>
 </html>

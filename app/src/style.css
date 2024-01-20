@@ -24,14 +24,80 @@ video {
     border: 1px solid black; /* Optional: adds a border to the video */
 }
 
-button {
-    margin-top: 20px; /* Spacing between the video and the button */
-    padding: 10px 20px; /* Adjust padding as needed */
-    font-size: 16px; /* Adjust the font size as needed */
-    cursor: pointer; /* Changes the cursor on hover over the button */
+.screenshot_button, .freeze_button {
+    padding: 10px 20px; /* Slightly reduced padding */
+    font-size: 18px; /* Slightly smaller font size */
+    margin: 5px; /* Margin for spacing around buttons */
+    cursor: pointer; /* Cursor changes on hover over the button */
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Gap between buttons */
+    margin-top: 20px; /* Spacing from the video or other elements */
+}
+
 
 #webcam {
     border: 5px solid grey; /* Default border color */
     /* Other existing styles for webcam */
 }
+
+#police-lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Ensure clicks pass through */
+    overflow: hidden;
+}
+
+/* Keyframes for red light */
+@keyframes sweepRedLight {
+    0%, 100% {
+        transform: translate(-50%, -50%) translateX(-100vw); /* Red light starts and ends off-screen left */
+    }
+    50% {
+        transform: translate(-50%, -50%) translateX(100vw); /* Red light moves off-screen right */
+    }
+}
+
+/* Keyframes for blue light */
+@keyframes sweepBlueLight {
+    0%, 100% {
+        transform: translate(-50%, -50%) translateX(100vw); /* Blue light starts and ends off-screen right */
+    }
+    50% {
+        transform: translate(-50%, -50%) translateX(-100vw); /* Blue light moves off-screen left */
+    }
+}
+
+.light {
+    position: absolute;
+    left: 50%; /* Center horizontally */
+    width: 300px; /* Size of the light */
+    height: 300px; /* Size of the light */
+    border-radius: 50%;
+    opacity: 0.95; /* Adjust for desired intensity */
+    filter: blur(150px); /* Creates the glow effect */
+}
+
+.red-light {
+    top: 45%; /* Slightly above center */
+    background-color: red;
+    animation: sweepRedLight 2s linear infinite; /* Faster animation for red light */
+}
+
+.blue-light {
+    top: 55%; /* Slightly below center */
+    background-color: blue;
+    animation: sweepBlueLight 2s linear infinite; /* Faster animation for blue light */
+}
+
+
+
+
+
+
