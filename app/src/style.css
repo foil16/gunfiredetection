@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black; /* Optional: sets the background color */
+}
+
+h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    font-size: 24px; /* Adjust the font size as needed */
+    color: white;
+}
+
+video {
+    /* Adjust the width and height as needed */
+    width: 60%; 
+    height: auto; 
+    border: 1px solid black; /* Optional: adds a border to the video */
+}
+
+button {
+    margin-top: 20px; /* Spacing between the video and the button */
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust the font size as needed */
+    cursor: pointer; /* Changes the cursor on hover over the button */
+}
+
+#webcam {
+    border: 5px solid grey; /* Default border color */
+    /* Other existing styles for webcam */
+}

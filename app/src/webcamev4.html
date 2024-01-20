@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DangerDec</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Webcam Stream</title>
+    <script>
+        function startWebcam() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    document.getElementById('webcam').srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing webcam:", err);
+                });
+        }
+
+        function captureFrame() {
+            let video = document.getElementById('webcam');
+            let canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+
+            // Call function to download the image
+            downloadImage(canvas);
+        }
+
+        function downloadImage(canvas) {
+            let image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+            let link = document.createElement('a');
+            link.download = 'captured-frame.jpeg';
+            link.href = image;
+            link.click();
+        }
+
+        function activateRedBorder() {
+            document.getElementById('webcam').style.borderColor = 'red';
+        }
+
+        function deactivateRedBorder() {
+            document.getElementById('webcam').style.borderColor = 'grey';
+        }
+
+        let isFlashing = false;
+        let flashingInterval;
+
+        function toggleFlashingBorder() {
+            if (!isFlashing) {
+                flashingInterval = setInterval(() => {
+                    let videoElement = document.getElementById('webcam');
+                    videoElement.style.borderColor = videoElement.style.borderColor === 'red' ? 'grey' : 'red';
+                }, 200); // Adjust the interval as needed
+            isFlashing = true;
+            } else {
+                clearInterval(flashingInterval);
+                document.getElementById('webcam').style.borderColor = 'grey';
+                isFlashing = false;
+            }
+        }
+
+        toggleFlashingBorder();
+
+        window.onload = startWebcam;
+
+
+    </script>
+    
+</head>
+<body>
+    <h1>Webcam Stream</h1>
+    <video id="webcam" autoplay playsinline></video>
+    <button onclick="captureFrame()">Capture Frame</button>
+</body>
+</html>
