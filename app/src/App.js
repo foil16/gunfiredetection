@@ -161,6 +161,12 @@ function DangerDetApp() {
         //toggleFlashingBorder();
         showNotification("Firearm Detected!");
         break;
+      case "Rifle":
+        setFireGifVisible(false);
+        setPoliceLightsVisible(true);
+        //toggleFlashingBorder();
+        showNotification("Firearm Detected!");
+        break;
       case "Nothing":
         setFireGifVisible(false);
         setIntruderGifVisible(false); // Hide the intruder GIF when the situation is safe
