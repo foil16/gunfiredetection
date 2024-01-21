@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import WebcamComponent from "./webcamcomponent";
 import './App.css';
+import WebcamComponent from "./webcamcomponent";
 
-const App = () => {
+function DangerDetApp() {
   const [isWebcamActive, setWebcamActive] = useState(false);
   const [isPoliceLightsVisible, setPoliceLightsVisible] = useState(false);
   const [flashingIntervalId, setFlashingIntervalId] = useState(null);
   const [notification, setNotification] = useState('');
   const [currentSituation, setCurrentSituation] = useState('Safe');
+  const [intruder, setIntruder] = useState('Pass');
+  const [isIntruderGifVisible, setIntruderGifVisible] = useState(false);
 
   useEffect(() => {
     startWebcam();
@@ -76,6 +78,7 @@ const App = () => {
     }
   }
 
+
   function stopFlashingBorder() {
     if (flashingIntervalId) {
       clearInterval(flashingIntervalId);
@@ -85,6 +88,10 @@ const App = () => {
         videoElement.style.borderColor = 'initial';
       }
     }
+  }
+
+  function toggleIntruder() {
+    setIntruder(prev => prev === 'Pass' ? 'Allow' : 'Pass');
   }
 
   function togglePoliceLights() {
@@ -124,8 +131,19 @@ const App = () => {
         showNotification('Firearm Detected!');
         setCurrentSituation('Gun Detected');
         break;
+      case "intruder":
+      if (intruder === 'Pass') {
+        console.log("Intruders allowed, no action taken.");
+      } else {
+        toggleFlashingBorder();
+        showNotification('Intruder Alert!');
+        setCurrentSituation('Intruder Detected!');
+        setIntruderGifVisible(true); // Ensure intruder GIF is visible when intruders are not allowed
+      }
+        break;
       case "safe":
         setFireGifVisible(false);
+        setIntruderGifVisible(false); // Hide the intruder GIF when the situation is safe
         setPoliceLightsVisible(false);
         stopFlashingBorder();
         setCurrentSituation('Safe');
@@ -136,8 +154,6 @@ const App = () => {
   }
 
   return (
-    <div>
-      return (
     <div className="App">
       <h1>DangerDet</h1>
       <div id="police-lights" style={{ display: isPoliceLightsVisible ? 'block' : 'none' }}>
@@ -149,12 +165,15 @@ const App = () => {
         <img id="bgimage" src="/images/firegif.gif" alt="firegif"></img>
       </div>
 
+      <div id="intrudergif" style={{ display: isIntruderGifVisible ? 'block' : 'none' }}>
+      <img id="intruderimg" src="/images/giphy.gif" alt="intrudergif"></img>
+      </div>
+
       <p id="safetext" class="safetext">Safe</p>
       <p id="dangertext" class="dangertext">Firearm Detected</p>
       <p id="dangertext" class="dangertext">Fire Hazard Detected</p>
     
       <div className="video-and-text">
-       
         <WebcamComponent/>
         <p className={`situation-text ${currentSituation === 'Safe' ? 'safe-text' : 'not-safe-text'}`}>
           {currentSituation}
@@ -164,11 +183,17 @@ const App = () => {
       <div className="button-container">
         <button onClick={captureFrame}>Capture Frame</button>
         <button onClick={toggleFreezeFrame}>Freeze Frame</button>
-        
+        <button onClick={toggleIntruder}>
+          {intruder === 'Pass' ? 'Allow Intruders' : 'No Intruders'}
+        </button>
       </div>
 
       <button onClick={() => handleSituationChange("fire")}>
         Handle Fire Situation
+      </button>
+
+      <button onClick={() => handleSituationChange("intruder")}>
+        Handle Intruder Situation
       </button>
 
       <button onClick={() => handleSituationChange("gun")}>
@@ -183,9 +208,6 @@ const App = () => {
 
     </div>
   );
-     
-    </div>
-  );
-};
+}
 
-export default App;
+export default DangerDetApp;
