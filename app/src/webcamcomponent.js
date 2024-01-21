@@ -4,6 +4,7 @@ const WebcamStream = () => {
   const videoRef = useRef();
   const canvasRef = useRef();
   const [streaming, setStreaming] = useState(false);
+  var frame;
 
   useEffect(() => {
     navigator.mediaDevices
@@ -31,18 +32,26 @@ const WebcamStream = () => {
         fetch("http://localhost:5000/process_image", {
           method: "POST",
           body: formData,
-          mode: 'cors',
+          mode: "cors",
         })
-          .then((response) =>
-            response.ok
-              ? console.log("Frame sent")
-              : console.error("Error sending frame", response)
-          )
+          .then((response) => {
+            if (response.ok) {
+              console.log("Frame sent");
+              return response.blob();
+            } else {
+              console.error("Error sending frame", response);
+            }
+          })
+          .then((blob) => {
+            var img = document.createElement("img");
+            img.src = URL.createObjectURL(blob);
+            document.body.appendChild(img);
+          })
           .catch((error) => console.error("Error sending frame:", error));
       }, "image/png");
     };
 
-    const intervalId = setInterval(captureAndSendFrame, 2000);
+    const intervalId = setInterval(captureAndSendFrame, 5000);
     return () => clearInterval(intervalId);
   }, [streaming]);
 
