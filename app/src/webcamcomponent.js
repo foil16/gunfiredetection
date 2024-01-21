@@ -43,7 +43,7 @@ const WebcamStream = () => {
       }, "image/jpg");
     };
 
-    const intervalId = setInterval(captureAndSendFrame, 700);
+    const intervalId = setInterval(captureAndSendFrame, 1000);
     return () => clearInterval(intervalId);
   }, [streaming]);
 
