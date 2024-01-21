@@ -171,7 +171,7 @@ function DangerDetApp() {
         id="bgimagecontainer"
         style={{ display: isFireGifVisible ? "block" : "none" }}
       >
-        <img id="bgimage" src="/images/firegif.gif" alt="firegif"></img>
+        <img id="bgimage" src="images/firegif.gif" alt="firegif"></img>
       </div>
 
       <div
