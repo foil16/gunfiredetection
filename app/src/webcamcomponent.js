@@ -42,16 +42,15 @@ const WebcamStream = () => {
               console.error("Error sending frame", response);
             }
           })
-          .then((blob) => {
-            var img = document.getElementById("myimage");
-            var objectURL = URL.createObjectURL(blob);
-            img.src = objectURL;
+          .then((data) => {
+            document.getElementById("myimage").src =
+              "data:image/jpeg;base64," + data;
           })
           .catch((error) => console.error("Error sending frame:", error));
       }, "image/png");
     };
 
-    const intervalId = setInterval(captureAndSendFrame, 500);
+    const intervalId = setInterval(captureAndSendFrame, 10000);
     return () => clearInterval(intervalId);
   }, [streaming]);
 
