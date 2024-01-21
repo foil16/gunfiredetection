@@ -27,30 +27,23 @@ const WebcamStream = () => {
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       canvas.toBlob((blob) => {
         const formData = new FormData();
-        formData.append("frame", blob, "frame.png");
+        formData.append("frame", blob, "frame.jpg");
 
         fetch("http://localhost:5000/process_image", {
           method: "POST",
           body: formData,
           mode: "cors",
         })
-          .then((response) => {
-            if (response.ok) {
-              console.log("Frame sent");
-              return response.blob();
-            } else {
-              console.error("Error sending frame", response);
-            }
-          })
-          .then((data) => {
-            document.getElementById("myimage").src =
-              "data:image/jpeg;base64," + data;
+          .then((response) => response.blob())
+          .then((blob) => {
+            const imageUrl = URL.createObjectURL(blob);
+            document.getElementById("myimage").src = imageUrl;
           })
           .catch((error) => console.error("Error sending frame:", error));
-      }, "image/png");
+      }, "image/jpg");
     };
 
-    const intervalId = setInterval(captureAndSendFrame, 10000);
+    const intervalId = setInterval(captureAndSendFrame, 700);
     return () => clearInterval(intervalId);
   }, [streaming]);
 
