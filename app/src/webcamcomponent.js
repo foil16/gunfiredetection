@@ -48,7 +48,7 @@ const WebcamStream = () => {
 
   return (
     <div style={{ position: "relative" }}>
-      <video ref={videoRef} style={{ width: "100%" }} muted playsInline />
+      <video ref={videoRef} id="webcam" style={{ width: "100%" }} muted playsInline />
       <canvas
         ref={canvasRef}
         style={{ display: "none" }}
