@@ -31,11 +31,12 @@ const WebcamStream = () => {
         fetch("http://localhost:5000/process_image", {
           method: "POST",
           body: formData,
+          mode: 'cors',
         })
           .then((response) =>
             response.ok
               ? console.log("Frame sent")
-              : console.error("Error sending frame")
+              : console.error("Error sending frame", response)
           )
           .catch((error) => console.error("Error sending frame:", error));
       }, "image/png");
