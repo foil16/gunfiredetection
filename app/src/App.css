@@ -1,38 +1,319 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  margin: 0;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  background-color: black;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  font-size: 24px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+video {
+  position: relative;
+  width: 800px;
+  margin-left: 15%;
+  border: 1px solid black;
+  border-radius: 5%;
+  z-index: 2;
 }
 
-@keyframes App-logo-spin {
+.screenshot_button,
+.freeze_button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 20px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(144, 144, 144);
+  color: white;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: rgb(112, 112, 112);
+  border-color: black;
+}
+
+#webcam {
+  border: 5px solid grey;
+}
+
+#police-lights {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes sweepRedLight {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(-100vw);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(100vw);
+  }
+}
+
+@keyframes sweepBlueLight {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(100vw);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-100vw);
+  }
+}
+
+.light {
+  position: absolute;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  opacity: 0.95;
+  filter: blur(150px);
+}
+
+.red-light {
+  top: 45%;
+  background-color: red;
+  animation: sweepRedLight 2s linear infinite;
+}
+
+.blue-light {
+  top: 55%;
+  background-color: blue;
+  animation: sweepBlueLight 2s linear infinite;
+}
+
+#bgimage {
+  display: block;
+  position: absolute;
+  scale: 300%;
+  bottom: 0;
+  left: 200px;
+  margin: auto;
+  filter: blur(4px);
+}
+
+#bgimagecontainer {
+  display: block;
+  margin: auto;
+  position: fixed;
+  z-index: -100;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+#intrudergif img {
+  width: 350px; /* Reduced width */
+  height: 350px; /* Reduced height */
+  object-fit: cover;
+}
+
+#intrudergif {
+  position: fixed;
+  top: 33%;
+  left: 72%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  display: none;
+  object-fit: cover; /* Add this line */
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-color: aqua;
+  border: 0.1px solid white;
+  color: white;
+  transition: background-color 0.3s;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(112, 112, 112);
+}
+
+#webcam {
+  border: 5px solid grey;
+}
+
+#police-lights {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes sweepRedLight {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(-100vw);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(100vw);
+  }
+}
+
+@keyframes sweepBlueLight {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(100vw);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(-100vw);
+  }
+}
+
+.light {
+  position: absolute;
+  left: 50%;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  opacity: 0.5;
+  filter: blur(150px);
+}
+
+.red-light {
+  top: 45%;
+  background-color: red;
+  animation: sweepRedLight 2s linear infinite;
+}
+
+.blue-light {
+  top: 55%;
+  background-color: blue;
+  animation: sweepBlueLight 2s linear infinite;
+}
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+}
+
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.notification {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(255, 255, 0);
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
+}
+
+.video-and-text {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+  margin-left: -150px;
+}
+
+.situation-text {
+  position: absolute;
+  left: 75%; /* Align to the right edge of the video */
+  top: 10%;
+  transform: translateY(-50%);
+  width: 200px;
+  margin-left: 20px; /* Adjust this value to move text closer */
+  color: white;
+  font-size: 20px;
+}
+
+.safe-text {
+  color: green;
+  font-size: 50px;
+  padding-left: 50px;
+}
+
+.not-safe-text {
+  color: red;
+  font-size: 50px;
+  padding-left: 50px;
 }

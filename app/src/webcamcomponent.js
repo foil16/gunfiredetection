@@ -34,11 +34,17 @@ const WebcamStream = () => {
           body: formData,
           mode: "cors",
         })
-          .then((response) => response.blob())
+          .then((response) => {
+            const customHeader = response.headers.get("type");
+            console.log(customHeader);
+            document.getElementById("type").innerText = customHeader;
+            return response.blob();
+          })
           .then((blob) => {
             const imageUrl = URL.createObjectURL(blob);
             document.getElementById("myimage").src = imageUrl;
           })
+
           .catch((error) => console.error("Error sending frame:", error));
       }, "image/jpg");
     };
@@ -64,6 +70,7 @@ const WebcamStream = () => {
       />
 
       <img id="myimage"></img>
+      <p display="" id="type"></p>
     </div>
   );
 };
