@@ -201,7 +201,6 @@ function DangerDetApp() {
           {currentSituation}
         </p>
       </div>
-
       <div className="button-container">
         <button onClick={captureFrame}>Capture Frame</button>
         <button onClick={toggleFreezeFrame}>Freeze Frame</button>

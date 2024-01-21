@@ -57,6 +57,7 @@ const WebcamStream = () => {
     <div>
       <video
         ref={videoRef}
+        id="webcam"
         style={{ width: "100%", visibility: "hidden", display: "none" }}
         muted
         playsInline
@@ -69,7 +70,17 @@ const WebcamStream = () => {
         height={480}
       />
 
-      <img id="myimage"></img>
+      <img
+        id="myimage"
+        style={{
+          display: "block", // Makes the image a block element
+          position: "relative",
+          width: "300%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          left: "400px",
+        }}
+      />
       <p display="" id="type"></p>
     </div>
   );
