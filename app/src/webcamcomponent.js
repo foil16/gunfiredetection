@@ -49,7 +49,7 @@ const WebcamStream = () => {
       }, "image/jpg");
     };
 
-    const intervalId = setInterval(captureAndSendFrame, 1000);
+    const intervalId = setInterval(captureAndSendFrame, 5000);
     return () => clearInterval(intervalId);
   }, [streaming]);
 
@@ -77,8 +77,10 @@ const WebcamStream = () => {
           position: "relative",
           width: "300%",
           marginLeft: "auto",
-          marginRight: "auto",
-          left: "400px",
+          marginRight: "50%",
+          right: "130px",
+          border: "5px solid",
+          borderRadius: "30px",
         }}
       />
       <p display="none" id="type"></p>

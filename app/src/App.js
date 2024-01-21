@@ -99,11 +99,22 @@ function DangerDetApp() {
   }
 
   function toggleFlashingBorder() {
-    if (!flashingIntervalId) {
+    if (flashingIntervalId) {
+      // Stop flashing
+      clearInterval(flashingIntervalId);
+      setFlashingIntervalId(null);
+      let videoElement = document.getElementById("myimage");
+      if (videoElement) {
+        videoElement.style.borderColor = "initial";
+      }
+    } else {
+      // Start flashing
       const intervalId = setInterval(() => {
-        let videoElement = document.getElementById("webcam");
-        videoElement.style.borderColor =
-          videoElement.style.borderColor === "red" ? "grey" : "red";
+        let videoElement = document.getElementById("myimage");
+        if (videoElement) {
+          videoElement.style.borderColor =
+            videoElement.style.borderColor === "red" ? "grey" : "red";
+        }
       }, 200);
       setFlashingIntervalId(intervalId);
     }
@@ -113,7 +124,7 @@ function DangerDetApp() {
     if (flashingIntervalId) {
       clearInterval(flashingIntervalId);
       setFlashingIntervalId(null);
-      let videoElement = document.getElementById("webcam");
+      let videoElement = document.getElementById("myimage");
       if (videoElement) {
         videoElement.style.borderColor = "initial";
       }
@@ -128,16 +139,7 @@ function DangerDetApp() {
     setPoliceLightsVisible((prev) => !prev);
   }
 
-  function toggleFreezeFrame() {
-    let video = document.getElementById("webcam");
-    if (video) {
-      if (video.paused) {
-        video.play();
-      } else {
-        video.pause();
-      }
-    }
-  }
+  function toggleFreezeFrame() {}
 
   const [isFireGifVisible, setFireGifVisible] = useState(false);
 
@@ -150,42 +152,30 @@ function DangerDetApp() {
       case "Fire":
         setFireGifVisible(true);
         setPoliceLightsVisible(false);
-        toggleFlashingBorder();
+        //toggleFlashingBorder();
         showNotification("Fire Hazard Detected!");
-        setCurrentSituation("Fire Detected");
         break;
       case "Gun":
         setFireGifVisible(false);
         setPoliceLightsVisible(true);
-        toggleFlashingBorder();
+        //toggleFlashingBorder();
         showNotification("Firearm Detected!");
-        setCurrentSituation("Gun Detected");
-        break;
-      case "3":
-        if (intruder === "Pass") {
-          console.log("Intruders allowed, no action taken.");
-        } else {
-          toggleFlashingBorder();
-          showNotification("Intruder Alert!");
-          setCurrentSituation("Intruder Detected!");
-          setIntruderGifVisible(true); // Ensure intruder GIF is visible when intruders are not allowed
-        }
         break;
       case "Nothing":
         setFireGifVisible(false);
         setIntruderGifVisible(false); // Hide the intruder GIF when the situation is safe
         setPoliceLightsVisible(false);
         stopFlashingBorder();
-        setCurrentSituation("Safe");
         break;
       default:
+        stopFlashingBorder();
         console.error("Invalid situation");
     }
   }
 
   return (
     <div className="App">
-      <h1>DangerDet</h1>
+      <h1>DangerDet.</h1>
       <div
         id="police-lights"
         style={{ display: isPoliceLightsVisible ? "block" : "none" }}
@@ -220,38 +210,46 @@ function DangerDetApp() {
 
       <div className="video-and-text">
         <WebcamComponent />
-        <p
-          className={`situation-text ${
-            currentSituation === "Safe" ? "safe-text" : "not-safe-text"
-          }`}
-        >
-          {currentSituation}
-        </p>
       </div>
 
       <p id="hiddenP" class="hiddenP"></p>
 
       <div className="button-container">
         <button onClick={captureFrame}>Capture Frame</button>
-        <button onClick={toggleFreezeFrame}>Freeze Frame</button>
-        <button onClick={toggleIntruder}>
+        <button onClick={toggleIntruder} style={{ display: "none" }}>
           {intruder === "Pass" ? "Allow Intruders" : "No Intruders"}
         </button>
       </div>
 
-      <button onClick={() => handleSituationChange("1")}>
+      <button
+        className="hideme"
+        onClick={() => handleSituationChange("1")}
+        style={{ display: "none" }}
+      >
         Handle Fire Situation
       </button>
 
-      <button onClick={() => handleSituationChange("3")}>
+      <button
+        className="hideme"
+        onClick={() => handleSituationChange("3")}
+        style={{ display: "none" }}
+      >
         Handle Intruder Situation
       </button>
 
-      <button onClick={() => handleSituationChange("2")}>
+      <button
+        className="hideme"
+        onClick={() => handleSituationChange("2")}
+        style={{ display: "none" }}
+      >
         Handle Gun Situation
       </button>
 
-      <button onClick={() => handleSituationChange("0")}>
+      <button
+        className="hideme"
+        onClick={() => handleSituationChange("0")}
+        style={{ display: "none" }}
+      >
         Reset All Effects
       </button>
 
