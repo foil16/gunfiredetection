@@ -81,7 +81,7 @@ const WebcamStream = () => {
           left: "400px",
         }}
       />
-      <p display="" id="type"></p>
+      <p display="none" id="type"></p>
     </div>
   );
 };

@@ -19,6 +19,33 @@ function DangerDetApp() {
     };
   }, []);
 
+  // THIS PART IS THE ONE THAT CALLS THE FUCNTOIN WHEN P CHANGES
+  useEffect(() => {
+    const targetNode = document.getElementById("type");
+    const config = { characterData: true, childList: true, subtree: true };
+
+    const callback = function (mutationsList, observer) {
+      for (const mutation of mutationsList) {
+        if (
+          mutation.type === "childList" ||
+          mutation.type === "characterData"
+        ) {
+          const newPvalue = targetNode.innerText;
+          handleSituationChange(newPvalue);
+        }
+      }
+    };
+    //
+
+    const observer = new MutationObserver(callback);
+
+    if (targetNode) observer.observe(targetNode, config);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   function showNotification(message) {
     setNotification(message);
     setTimeout(() => setNotification(""), 3000);
@@ -120,21 +147,21 @@ function DangerDetApp() {
 
   function handleSituationChange(situation) {
     switch (situation) {
-      case "fire":
+      case "Fire":
         setFireGifVisible(true);
         setPoliceLightsVisible(false);
         toggleFlashingBorder();
         showNotification("Fire Hazard Detected!");
         setCurrentSituation("Fire Detected");
         break;
-      case "gun":
+      case "Gun":
         setFireGifVisible(false);
         setPoliceLightsVisible(true);
         toggleFlashingBorder();
         showNotification("Firearm Detected!");
         setCurrentSituation("Gun Detected");
         break;
-      case "intruder":
+      case "3":
         if (intruder === "Pass") {
           console.log("Intruders allowed, no action taken.");
         } else {
@@ -144,7 +171,7 @@ function DangerDetApp() {
           setIntruderGifVisible(true); // Ensure intruder GIF is visible when intruders are not allowed
         }
         break;
-      case "safe":
+      case "Nothing":
         setFireGifVisible(false);
         setIntruderGifVisible(false); // Hide the intruder GIF when the situation is safe
         setPoliceLightsVisible(false);
@@ -201,6 +228,9 @@ function DangerDetApp() {
           {currentSituation}
         </p>
       </div>
+
+      <p id="hiddenP" class="hiddenP"></p>
+
       <div className="button-container">
         <button onClick={captureFrame}>Capture Frame</button>
         <button onClick={toggleFreezeFrame}>Freeze Frame</button>
@@ -209,19 +239,19 @@ function DangerDetApp() {
         </button>
       </div>
 
-      <button onClick={() => handleSituationChange("fire")}>
+      <button onClick={() => handleSituationChange("1")}>
         Handle Fire Situation
       </button>
 
-      <button onClick={() => handleSituationChange("intruder")}>
+      <button onClick={() => handleSituationChange("3")}>
         Handle Intruder Situation
       </button>
 
-      <button onClick={() => handleSituationChange("gun")}>
+      <button onClick={() => handleSituationChange("2")}>
         Handle Gun Situation
       </button>
 
-      <button onClick={() => handleSituationChange("safe")}>
+      <button onClick={() => handleSituationChange("0")}>
         Reset All Effects
       </button>
 
