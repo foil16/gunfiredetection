@@ -43,27 +43,35 @@ const WebcamStream = () => {
             }
           })
           .then((blob) => {
-            var img = document.createElement("img");
-            img.src = URL.createObjectURL(blob);
-            document.body.appendChild(img);
+            var img = document.getElementById("myimage");
+            var objectURL = URL.createObjectURL(blob);
+            img.src = objectURL;
           })
           .catch((error) => console.error("Error sending frame:", error));
       }, "image/png");
     };
 
-    const intervalId = setInterval(captureAndSendFrame, 5000);
+    const intervalId = setInterval(captureAndSendFrame, 500);
     return () => clearInterval(intervalId);
   }, [streaming]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <video ref={videoRef} style={{ width: "100%" }} muted playsInline />
+    <div>
+      <video
+        ref={videoRef}
+        style={{ width: "100%", visibility: "hidden", display: "none" }}
+        muted
+        playsInline
+      />
+
       <canvas
         ref={canvasRef}
         style={{ display: "none" }}
         width={640}
         height={480}
       />
+
+      <img id="myimage"></img>
     </div>
   );
 };
